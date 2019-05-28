@@ -289,6 +289,7 @@ function reset() {
 
 document.getElementById('reset').addEventListener('click', function() {
     reset();
+    document.getElementById('algorithmSelect').algorithm[0].checked = "ckecked";
 });
 
 document.getElementById('step').addEventListener('click', function() {
@@ -326,6 +327,7 @@ document.getElementById('step').addEventListener('click', function() {
 document.getElementById('algorithmSelect').addEventListener('change', function() {
     reset();
     algorithm = this.algorithm.value;
+    document.getElementById('log').textContent = `Mode: ${algorithm}`;
 })
 
 

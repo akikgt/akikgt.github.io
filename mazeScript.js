@@ -1,4 +1,5 @@
-const COLOR = '#87ceeb'
+const DEFAULT_COLOR = '#87ceeb'
+const VISITED_COLOR = '#ff0000'
 
 const HEIGHT = 5;
 const WIDTH = 5;
@@ -41,8 +42,6 @@ edgeList[25] = [24];
 
 /* --------------------------------------- */
 
-drawInitialMaze();
-
 // draw functions
 function drawInitialMaze() {
     let canvas = document.getElementById('canvasId');
@@ -59,7 +58,7 @@ function drawInitialMaze() {
             nodeCoords[nodeIndex].y = y;
 
             // draw node circle
-            ctx.fillStyle = COLOR;
+            ctx.fillStyle = DEFAULT_COLOR;
             ctx.beginPath();
             ctx.arc(nodeCoords[nodeIndex].x, nodeCoords[nodeIndex].y, canvas.width / 22, 0, Math.PI * 2, true);
             ctx.fill();
@@ -98,5 +97,232 @@ function drawInitialMaze() {
         }
     ctx.globalCompositeOperation = "source-over";
 
-
 }
+
+function drawPath(reachable) {
+    canvas = document.getElementById('canvasId');
+    let ctx = canvas.getContext('2d');
+
+    for (let i = 0; i < reachable.length; i++) {
+        let current = reachable[i];
+
+        // draw node circle
+        ctx.fillStyle = VISITED_COLOR;
+        ctx.beginPath();
+        ctx.arc(nodeCoords[current].x, nodeCoords[current].y, canvas.width / 22, 0, Math.PI * 2, true);
+        ctx.fill();
+
+        // write node number
+        ctx.fillStyle = "#000000";
+        ctx.font = "30px serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(current, nodeCoords[current].x, nodeCoords[current].y);
+    }
+}
+
+
+// function DFS(start, end) {
+//     let reachable = [];
+//     let stack = [];
+//     stack.push(start);
+
+//     while (stack.length != 0) {
+//         let currentNode = stack[stack.length - 1];
+//         stack.pop();
+//         // if already visited, skip
+//         if (reachable.indexOf(currentNode) >= 0)
+//             continue;
+
+//         reachable.push(currentNode);
+
+//         // if reaches goal
+//         if (currentNode === end)
+//             break;
+
+//         // check adjacent nodes and add them to the container
+//         for (let adjNode of edgeList[currentNode]) {
+//             stack.push(adjNode);
+//         }
+//     }
+
+//     console.log("DFS: " + reachable);
+// }
+
+// DFS(1, 25);
+
+// function BFS(start, end) {
+//     let reachable = [];
+//     let queue = [];
+//     queue.push(start);
+
+//     while (queue.length != 0) {
+//         let currentNode = queue[0];
+//         queue.shift();
+//         // if already visited, skip
+//         if (reachable.indexOf(currentNode) >= 0)
+//             continue;
+
+//         reachable.push(currentNode);
+
+//         // if reaches goal
+//         if (currentNode === end)
+//             break;
+
+//         // check adjacent nodes and add them to the container
+//         for (let adjNode of edgeList[currentNode]) {
+//             queue.push(adjNode);
+//         }
+//     }
+
+//     console.log("BFS: " + reachable);
+// }
+
+// BFS(1, 25);
+
+
+function stepDFS() {
+    let log = document.getElementById('log');
+    if (reachable.length === 25) {
+        log.textContent = `Visited all nodes`;
+        return;
+    }
+    if (stack.length === 0) {
+        log.textContent = `Stack is empty`;
+        return;
+    }
+
+    currentNode = stack.pop();
+    log.textContent = `Pop ${currentNode}. `;
+
+    // reachable contains currentNode, skip
+    if (reachable.indexOf(currentNode) >= 0) {
+        log.textContent += `Already visited`;
+        return;
+    }
+
+    reachable.push(currentNode);
+
+    // if reaches goal
+    if (currentNode === goal)
+        log.textContent += `Reached goal`;
+
+    numOfPush = 0;
+    // check adjacent nodes and add them to the container
+    for (let adjNode of edgeList[currentNode]) {
+        stack.push(adjNode);
+        numOfPush++;
+    }
+
+    console.log("Reachable: " + reachable);
+    drawPath(reachable);
+}
+
+
+function stepBFS() {
+    let log = document.getElementById('log');
+    if (reachable.length === 25) {
+        log.textContent = `Visited all nodes`;
+        return;
+    }
+    if (queue.length === 0) {
+        log.textContent = `queue is empty`;
+        return;
+    }
+
+    currentNode = queue.shift();
+    log.textContent = `Pop ${currentNode}. `;
+
+    // reachable contains currentNode, skip
+    if (reachable.indexOf(currentNode) >= 0) {
+        log.textContent += `Already visited`;
+        return;
+    }
+
+    reachable.push(currentNode);
+
+    // if reaches goal
+    if (currentNode === goal)
+        log.textContent += `Reached goal`;
+
+    numOfPush = 0;
+    // check adjacent nodes and add them to the container
+    for (let adjNode of edgeList[currentNode]) {
+        queue.push(adjNode);
+        numOfPush++;
+    }
+
+    console.log("Reachable: " + reachable);
+    drawPath(reachable);
+}
+
+
+// global variables
+let start;
+let goal;
+let reachable;
+let stack;
+let queue;
+let currentNode;
+let algorithm;
+let numOfPush = 0;
+
+function reset() {
+    start = 1;
+    goal = 25;
+    reachable = [];
+    stack = [start];
+    queue = [start];
+    algorithm = 'dfs';
+
+    drawInitialMaze();
+    document.getElementById('log').textContent = "";
+    document.getElementById('reachable').textContent = `{${reachable}}`;
+    document.getElementById('stack').textContent = `{${stack}}`;
+    document.getElementById('queue').textContent = `{${queue}}`;
+}
+
+document.getElementById('reset').addEventListener('click', function() {
+    reset();
+});
+
+document.getElementById('step').addEventListener('click', function() {
+    if (algorithm === 'dfs') {
+        stepDFS();
+        let stackLog = [];
+        for (let i in stack) {
+            if (i >= stack.length - numOfPush) {
+                stackLog[i] = `<b>${stack[i]}</b>`;
+            }
+            else {
+                stackLog[i] = `${stack[i]}`;
+            }
+        }
+        document.getElementById('stack').innerHTML = `{${stackLog}}`;
+    }
+    else if (algorithm === 'bfs') {
+        stepBFS();
+        let queueLog = [];
+        for (let i in queue) {
+            if (i >= queue.length - numOfPush) {
+                queueLog[i] = `<b>${queue[i]}</b>`;
+            }
+            else {
+                queueLog[i] = `${queue[i]}`;
+            }
+        }
+        document.getElementById('queue').innerHTML = `{${queueLog}}`;
+    }
+    document.getElementById('reachable').innerHTML = `{${reachable}}`;
+
+});
+
+
+document.getElementById('algorithmSelect').addEventListener('change', function() {
+    reset();
+    algorithm = this.algorithm.value;
+})
+
+
+// starts from here
+reset();

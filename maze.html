@@ -11,33 +11,51 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- <div id="operations">
-        <button id="resetButton" class="btn btn-primary">Reset</button>
-        <button id="stepButton" style="display: none" >Next step</button>
-        <!-- <button id="insertButton" style="display: none">Insert new value</button>
-        <button id="percolateUpButton" style="display: none">Percolate Up</button>
-        <button id="removeButton" style="display: none">Remove Selected value</button> -->
-    <!-- </div>
-
-    <div id="insert">
-        <input type="number" id="insertForm" style="width: 70px">
-        <button id="insertButton">Insert</button>
+    <div>
+        <button id="reset">Reset</button>
+        <button id="step">Step</button>
+        <form id="algorithmSelect">
+            <input type="radio" name="algorithm" checked="checked" value="dfs"> DFS
+            <input type="radio" name="algorithm" value="bfs"> BFS
+        </form>
     </div>
-    <div id="percolateUp">
-        <button id="percolateUpButton">percolateUp</button>
-        <button id="percolateDownButton">percolateDown</button>
+    <div class="row">
+        <div class="col-sm-6">
+            <canvas id="canvasId" width="700" height="700">
+        </div>
+        <div class="col-sm-6">
+            <p>
+                <h3>
+                    Log: 
+                </h3>
+                <span id="log"></span>
+            </p>
+            <p>
+                <h3>
+                    Reachable: 
+                </h3>
+                <p id="reachable">
+                    {}
+                </p>
+            </p>
+            <p>
+                <h3>
+                    Stack: 
+                </h3>
+                <p id="stack">
+                    {}
+                </p>
+            </p>
+            <p>
+                <h3>
+                    Queue: 
+                </h3>
+                <p id="queue">
+                    {}
+                </p>
+            </p>
+        </div>
     </div>
-    <div id="remove">
-        <button id="removeButton">RemoveMin</button>
-    </div>
-    <div id="heapSort">
-        <button id="buildButton">buildHeap</button>
-        <button id="sortButton">heapSort</button>
-    </div>
-    <div id="heapData">
-        <!-- Array: none -->
-    <!-- </div> --> 
-    <canvas id="canvasId" width="800" height="800">
 
     </canvas>    
 

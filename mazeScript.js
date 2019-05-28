@@ -211,6 +211,8 @@ function stepDFS() {
     numOfPush = 0;
     // check adjacent nodes and add them to the container
     for (let adjNode of edgeList[currentNode]) {
+        if (reachable.indexOf(adjNode) >= 0)
+            continue;
         stack.push(adjNode);
         numOfPush++;
     }
@@ -249,6 +251,8 @@ function stepBFS() {
     numOfPush = 0;
     // check adjacent nodes and add them to the container
     for (let adjNode of edgeList[currentNode]) {
+        if (reachable.indexOf(adjNode) >= 0)
+            continue;
         queue.push(adjNode);
         numOfPush++;
     }

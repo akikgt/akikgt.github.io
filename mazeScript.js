@@ -14,28 +14,29 @@ for (let i = 0; i <= HEIGHT * WIDTH; i++) {
     edgeList[i] = [];
 }
 
+// order: clockwise
 edgeList[1] = [2, 6];
-edgeList[2] = [1, 3, 7];
-edgeList[3] = [2, 8, 4];
-edgeList[4] = [3, 9, 5];
-edgeList[5] = [4, 10];
+edgeList[2] = [3, 7, 1];
+edgeList[3] = [4, 8, 2];
+edgeList[4] = [5, 9, 3];
+edgeList[5] = [10, 4];
 edgeList[6] = [1, 11];
 edgeList[7] = [2];
 edgeList[8] = [3, 13];
 edgeList[9] = [4, 14];
 edgeList[10] = [5, 15];
 edgeList[11] = [6, 12, 16];
-edgeList[12] = [11, 13, 17];
-edgeList[13] = [8, 18];
+edgeList[12] = [13, 17, 11];
+edgeList[13] = [8, 18, 12];
 edgeList[14] = [9, 15];
-edgeList[15] = [14, 20];
+edgeList[15] = [20, 14];
 edgeList[16] = [11, 21];
 edgeList[17] = [12, 22];
 edgeList[18] = [13];
 edgeList[19] = [20, 24];
 edgeList[20] = [15, 19];
 edgeList[21] = [16, 22];
-edgeList[22] = [17, 21, 23];
+edgeList[22] = [17, 23, 21];
 edgeList[23] = [22];
 edgeList[24] = [19, 25];
 edgeList[25] = [24];
